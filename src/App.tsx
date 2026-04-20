@@ -8,11 +8,49 @@ import AboutUs from './App/AboutUs'
 import Category from './App/Category'
 import Tabbar from './App/Tabbar'
 
-const App = () => {
-  const [shopList] = React.useState<Pwamap.ShopData[]>([])
+import config from "./config.json"; // 復活
+import Papa from 'papaparse';     // 復活
 
-  // ここでデータを取得して setShopList していた処理がある場合は、
-  // そこだけ残し、使っていない sortShopList の呼び出しだけを消してください。
+const App = () => {
+  const [shopList, setShopList] = React.useState<Pwamap.ShopData[]>([])
+
+  React.useEffect(() => {
+    fetch(config.data_url)
+      .then((response) => {
+        return response.ok ? response.text() : Promise.reject(response.status);
+      })
+      .then((data) => {
+        Papa.parse(data, {
+          header: true,
+          complete: (results) => {
+            const features = results.data as any[];
+            const nextShopList: Pwamap.ShopData[] = [];
+            
+            for (let i = 0; i < features.length; i++) {
+              const feature = features[i];
+              // 必須項目チェック
+              if (!feature['緯度'] || !feature['経度'] || !feature['スポット名']) {
+                continue;
+              }
+              
+              const shop = {
+                index: i,
+                ...feature
+              };
+              nextShopList.push(shop);
+            }
+
+            // 新着順にソート（ここで直接行うことで未使用エラーを回避）
+            nextShopList.sort((item1: any, item2: any) => {
+              return Date.parse(item2['タイムスタンプ']) - Date.parse(item1['タイムスタンプ']);
+            });
+
+            setShopList(nextShopList);
+          }
+        });
+      })
+      .catch(err => console.error("データ読み込みに失敗しました:", err));
+  }, []);
 
   return (
     <div className="app">
