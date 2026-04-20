@@ -126,27 +126,31 @@ const Content = (props: Props) => {
 
       // Map.tsx 内の click イベント部分を修正
 
-mapObject.on('click', 'shop-points', (event: any) => {
-  const properties = event.features[0].properties;
-  
-  // スプレッドシートの「公式サイト」列にURLが入っている場合
-  if (properties['公式サイト']) {
-    window.open(properties['公式サイト'], '_blank', 'noreferrer');
-  } else {
-    // URLがない場合は、今まで通り詳細パネルを出す
-    setShop(properties);
-  }
-});
+// --- ここから入れ替え ---
+    mapObject.on('click', 'shop-points', (event: any) => {
+      const properties = event.features[0].properties;
+      // 「公式サイト」のURLがある場合は別タブで開く
+      if (properties['公式サイト'] && String(properties['公式サイト']).startsWith('http')) {
+        window.open(properties['公式サイト'], '_blank', 'noreferrer');
+      } else if (!properties.cluster) {
+        setShop(properties);
+      }
+    });
 
-mapObject.on('click', 'shop-symbol', (event: any) => {
-  const properties = event.features[0].properties;
+    mapObject.on('click', 'shop-symbol', (event: any) => {
+      const properties = event.features[0].properties;
+      // 「公式サイト」のURLがある場合は別タブで開く
+      if (properties['公式サイト'] && String(properties['公式サイト']).startsWith('http')) {
+        window.open(properties['公式サイト'], '_blank', 'noreferrer');
+      } else if (!properties.cluster) {
+        setShop(properties);
+      }
+    });
 
-  if (properties['公式サイト']) {
-    window.open(properties['公式サイト'], '_blank', 'noreferrer');
-  } else {
-    setShop(properties);
-  }
-});
+    setCluster(mapObject);
+  }); // <--- ここが addMarkers 内の mapObject.on('render', ...) の閉じ
+}; // <--- ここが addMarkers 関数の閉じ
+// --- ここまで入れ替え ---
 
   // Map.tsx 内の該当箇所を修正
 
