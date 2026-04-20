@@ -124,24 +124,29 @@ const Content = (props: Props) => {
         mapObject.getCanvas().style.cursor = ''
       })
 
-      mapObject.on('click', 'shop-points', (event: any) => {
-        if (!event.features[0].properties.cluster) {
-          setShop(event.features[0].properties)
-        }
-      })
+      // Map.tsx 内の click イベント部分を修正
 
-      mapObject.on('click', 'shop-symbol', (event: any) => {
-        if (!event.features[0].properties.cluster) {
-          setShop(event.features[0].properties)
-        }
-      })
-
-      setCluster(mapObject)
-
-
-    });
-
+mapObject.on('click', 'shop-points', (event: any) => {
+  const properties = event.features[0].properties;
+  
+  // スプレッドシートの「公式サイト」列にURLが入っている場合
+  if (properties['公式サイト']) {
+    window.open(properties['公式サイト'], '_blank', 'noreferrer');
+  } else {
+    // URLがない場合は、今まで通り詳細パネルを出す
+    setShop(properties);
   }
+});
+
+mapObject.on('click', 'shop-symbol', (event: any) => {
+  const properties = event.features[0].properties;
+
+  if (properties['公式サイト']) {
+    window.open(properties['公式サイト'], '_blank', 'noreferrer');
+  } else {
+    setShop(properties);
+  }
+});
 
   // Map.tsx 内の該当箇所を修正
 
