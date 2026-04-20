@@ -15,7 +15,7 @@ const sortShopList = async (shopList: Pwamap.ShopData[]) => {
   const currentPosition = await askGeolocationPermission()
   if(currentPosition) {
     const from = turf.point(currentPosition);
-    const sortingShopList = shopList.map((shop) => {
+    const sortingShopList = shopList.map((shop: any) => { // anyを追加
       const lng = parseFloat(shop['経度'])
       const lat = parseFloat(shop['緯度'])
       if(Number.isNaN(lng) || Number.isNaN(lat)) {
@@ -50,49 +50,45 @@ const Content = (props: Props) => {
   const [hasMore, setHasMore] = React.useState(true);
 
   const [searchParams] = useSearchParams();
+  
+  // URLから複数の検索条件を取得
   const queryCategory = searchParams.get('category')
+  const queryLevel = searchParams.get('level')
+  const queryStyle = searchParams.get('style')
 
   React.useEffect(() => {
-
-    let data = props.data;
-
-    if (queryCategory) {
-      data = props.data.filter((shop) => {
-        return shop['カテゴリ'] === queryCategory
-      })
-    }
+    // 複数条件でのフィルタリングを実行
+    let filtered = props.data.filter((item: any) => {
+      const matchCat = !queryCategory || item['カテゴリ'] === queryCategory;
+      const matchLvl = !queryLevel || item['ヴィーガンレベル'] === queryLevel;
+      const matchStl = !queryStyle || item['スタイル'] === queryStyle;
+      return matchCat && matchLvl && matchStl;
+    });
 
     let isMounted = true
-    // prevent memory leak
-    if (isMounted) {
+    const orderBy = process.env.REACT_APP_ORDERBY
 
-      const orderBy = process.env.REACT_APP_ORDERBY
-
-      if (orderBy === 'distance') {
-
-        sortShopList(data)
-          .then(sortedData => {
-            // prevent memory leak
-            if (isMounted) {
-              setList(sortedData.slice(0, page))
-              setData(sortedData)
-            }
-          })
-
-      } else {
-        setList(data.slice(0, page))
-        setData(data)
-      }
+    if (orderBy === 'distance') {
+      sortShopList(filtered).then(sortedData => {
+        if (isMounted) {
+          setList(sortedData.slice(0, page))
+          setData(sortedData)
+        }
+      })
+    } else {
+      setList(filtered.slice(0, page))
+      setData(filtered)
     }
 
-    return () => {
-      isMounted = false
-    }
-  }, [props.data, queryCategory, page])
+    return () => { isMounted = false }
+  }, [props.data, queryCategory, queryLevel, queryStyle, page])
 
 
-  const popupHandler = (shop: Pwamap.ShopData) => {
-    if (shop) {
+  // ここで「直接飛ばす」か「詳細パネルを出す」かを判定
+  const popupHandler = (shop: any) => {
+    if (shop['公式サイト'] && String(shop['公式サイト']).startsWith('http')) {
+      window.open(shop['公式サイト'], '_blank', 'noreferrer');
+    } else {
       setShop(shop)
     }
   }
@@ -101,34 +97,25 @@ const Content = (props: Props) => {
     setShop(undefined)
   }
 
-    //項目を読み込むときのコールバック
-    const loadMore = () => {
-
-      //データ件数が0件の場合、処理終了
-      if (list.length >= data.length) {
-        setHasMore(false);
-        return;
-      }
-
-      setList([...list, ...data.slice(page, page + 10)])
-      setPage(page + 10)
+  const loadMore = () => {
+    if (list.length >= data.length) {
+      setHasMore(false);
+      return;
     }
+    setList([...list, ...data.slice(page, page + 10)])
+    setPage(page + 10)
+  }
 
-  const loader = <div
-    className="loader"
-    key={0}
-    style={{
-      width: '100%',
-      height: '200px',
-      textAlign: 'center',
-      position: 'relative',
-      top: '100px'
-    }}
-  >場所一覧を読み込み中です...</div>;
+  const loader = <div className="loader" key={0} style={{ width: '100%', height: '200px', textAlign: 'center', position: 'relative', top: '100px' }}>場所一覧を読み込み中です...</div>;
 
   return (
     <div id="shop-list" className="shop-list">
-      {queryCategory && <div className="shop-list-category">{`カテゴリ：「${queryCategory}」`}</div>}
+      {/* 検索中条件の表示（必要に応じて調整） */}
+      {(queryCategory || queryLevel || queryStyle) && (
+        <div className="shop-list-category">
+          絞り込み中: {queryCategory} {queryLevel} {queryStyle}
+        </div>
+      )}
 
       <InfiniteScroll
         dataLength={list.length}
@@ -139,23 +126,17 @@ const Content = (props: Props) => {
       >
         {
           list.map((item, index) => {
-
             return (<div key={index} className="shop">
               <ShopListItem
                 data={item}
-                popupHandler={popupHandler}
+                popupHandler={() => popupHandler(item)} // ここで個別のshopデータを渡す
                 queryCategory={queryCategory}
               />
             </div>)
-
           })
         }
       </InfiniteScroll>
-      {shop ?
-        <Shop shop={shop} close={closeHandler} />
-        :
-        <></>
-      }
+      {shop ? <Shop shop={shop} close={closeHandler} /> : <></>}
     </div>
   );
 };
