@@ -143,11 +143,20 @@ const Content = (props: Props) => {
 
   }
 
-  React.useEffect(() => {
+  // Map.tsx 内の該当箇所を修正
 
-    addMarkers(mapObject, props.data)
+React.useEffect(() => {
+  if (!mapObject) return;
 
-  }, [mapObject, props.data])
+  const source = mapObject.getSource('shops') as any;
+  if (source) {
+    // データが変更されたら、地図のソース（GeoJSON）を差し替える
+    source.setData(toGeoJson(props.data));
+  } else {
+    // 最初の読み込み時
+    addMarkers(mapObject, props.data);
+  }
+}, [props.data, mapObject]); // props.data（絞り込み後のデータ）が変わるたびに実行
 
   React.useEffect(() => {
     if (!mapObject || props.data.length === 0) {
