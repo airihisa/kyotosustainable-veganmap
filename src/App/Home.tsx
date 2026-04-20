@@ -13,16 +13,18 @@ const Content = (props: Props) => {
   const [style, setStyle] = React.useState<any>(null);
 
   // 3つの条件すべてに合致するデータだけを抽出（リアルタイム絞り込み）
-  const filteredData = props.data.filter(shop => {
+  // Home.tsx の該当箇所
+
+  const filteredData = props.data.filter((shop: any) => { // shopをany型として扱う
     const matchCat = !category || shop['カテゴリ'] === category.value;
     const matchLvl = !level || shop['ヴィーガンレベル'] === level.value;
     const matchStl = !style || shop['スタイル'] === style.value;
     return matchCat && matchLvl && matchStl;
   });
 
-  // スプレッドシートの列から選択肢を自動生成する関数
   const getOptions = (key: string) => {
-    const uniqueValues = Array.from(new Set(props.data.map(item => item[key]).filter(Boolean)));
+    // ここも item: any とすることでエラーを回避します
+    const uniqueValues = Array.from(new Set(props.data.map((item: any) => item[key]).filter(Boolean)));
     return uniqueValues.map(v => ({ value: v, label: v }));
   };
 
