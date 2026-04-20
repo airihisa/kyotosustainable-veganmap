@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-right: 18px;
+  // padding-right: 18px; // ←もし右側に寄って見えるなら、ここを 0 または削除してください
 
   ul
   {
@@ -17,7 +17,8 @@
 
     li
     {
-      width: 20%;
+      // width: 20%; // ←これを削除して、下の flex: 1 に書き換えます
+      flex: 1;         // これで残りのスペースを4つで均等に分け合います
       text-align: center;
     }
 
@@ -29,6 +30,7 @@
       .icon
       {
         line-height: 20px;
+        font-size: 20px; // アイコンの大きさが気になる場合は調整してください
       }
 
       .text
