@@ -16,6 +16,7 @@ const Content = (props: Props) => {
     const matchCat = !category || shop['カテゴリ'] === category.value;
     const matchLvl = !level || shop['ヴィーガンレベル'] === level.value;
     
+    // スタイルの複数選択判定（OR検索：選択したスタイルのいずれかが含まれていれば表示）
     const matchStl = styles.length === 0 || styles.some((s: any) => 
       shop['スタイル'] && shop['スタイル'].includes(s.value)
     );
@@ -23,7 +24,7 @@ const Content = (props: Props) => {
     return matchCat && matchLvl && matchStl;
   });
 
-  // スタイルの選択肢を生成
+  // スタイルの選択肢を生成（コンマ区切りを分解して重複を排除）
   const getStyleOptions = () => {
     const allStyles = new Set<string>();
     props.data.forEach((item: any) => {
@@ -39,100 +40,51 @@ const Content = (props: Props) => {
     return uniqueValues.map(v => ({ value: v, label: v }));
   };
 
-  // react-select のカスタムスタイル設定
+  // react-select のカスタムスタイル設定（モノトーン・スタイリッシュ）
   const customStyles = {
-    control: (provided: any) => ({
+    control: (provided: any, state: any) => ({
       ...provided,
-      borderRadius: '30px', // カプセル型
-      border: 'none',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.12)', // 立体感のある影
-      padding: '2px 10px',
-      fontSize: '13px',
-      fontWeight: 'bold',
-      backgroundColor: 'rgba(255, 255, 255, 0.95)', // 地図が透ける透明感
+      borderRadius: '4px',
+      border: state.isFocused ? '1px solid #333' : '1px solid #E0E0E0',
+      boxShadow: 'none',
+      minHeight: '32px',
+      height: '32px',
+      fontSize: '10px',
+      fontWeight: '500',
+      backgroundColor: 'rgba(255, 255, 255, 0.98)',
+      cursor: 'pointer',
+      '&:hover': {
+        border: '1px solid #999',
+      }
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '0 8px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
     }),
     placeholder: (provided: any) => ({
       ...provided,
-      color: '#333',
+      color: '#888',
+    }),
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0px',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
     }),
     option: (provided: any, state: any) => ({
       ...provided,
-      fontSize: '13px',
-      backgroundColor: state.isSelected ? '#da402e' : state.isFocused ? '#fdecea' : 'white',
+      fontSize: '10px',
+      backgroundColor: state.isSelected ? '#333' : state.isFocused ? '#F5F5F5' : 'white',
       color: state.isSelected ? 'white' : '#333',
+      cursor: 'pointer',
       '&:active': {
-        backgroundColor: '#da402e',
+        backgroundColor: '#000',
       }
     }),
-    multiValue: (provided: any) => ({
-      ...provided,
-      backgroundColor: '#da402e', // チップの背景色
-      borderRadius: '15px',
-      padding: '2px 8px',
-    }),
-    multiValueLabel: (provided: any) => ({
-      ...provided,
-      color: 'white',
-      fontWeight: 'bold',
-    }),
-    multiValueRemove: (provided: any) => ({
-      ...provided,
-      color: 'white',
-      '&:hover': {
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        color: 'white',
-      },
-    }),
-    indicatorSeparator: () => ({ display: 'none' }), // 区切り線を消してスッキリ
-  };
-
-  return (
-    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      {/* 絞り込みコントロールエリア */}
-      <div style={{
-        position: 'absolute', top: '20px', left: '15px', right: '15px', 
-        zIndex: 10, display: 'flex', gap: '10px', flexDirection: 'column'
-      }}>
-        
-        {/* 上段：カテゴリとレベルを横並び */}
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <div style={{ flex: 1 }}>
-            <Select 
-              placeholder="カテゴリ" 
-              isClearable 
-              options={getOptions('カテゴリ')} 
-              onChange={setCategory} 
-              styles={customStyles}
-              isSearchable={false}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <Select 
-              placeholder="レベル" 
-              isClearable 
-              options={getOptions('ヴィーガンレベル')} 
-              onChange={setLevel} 
-              styles={customStyles}
-              isSearchable={false}
-            />
-          </div>
-        </div>
-        
-        {/* 下段：スタイル（複数選択） */}
-        <Select 
-          isMulti 
-          placeholder="スタイルを選択" 
-          isClearable 
-          options={getStyleOptions()} 
-          onChange={setStyles} 
-          styles={customStyles}
-          isSearchable={false}
-        />
-      </div>
-
-      <Map data={filteredData} />
-    </div>
-  );
-};
-
-export default Content;
+    multiValue: (
