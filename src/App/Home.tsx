@@ -9,22 +9,19 @@ type Props = {
 const Content = (props: Props) => {
   const [category, setCategory] = React.useState<any>(null);
   const [level, setLevel] = React.useState<any>(null);
-  const [styles, setStyles] = React.useState<any>([]); // 複数選択のため配列で管理
+  const [styles, setStyles] = React.useState<any>([]);
 
   // フィルタリング処理
   const filteredData = props.data.filter((shop: any) => {
     const matchCat = !category || shop['カテゴリ'] === category.value;
     const matchLvl = !level || shop['ヴィーガンレベル'] === level.value;
-    
-    // スタイルの複数選択判定（OR検索：選択したスタイルのいずれかが含まれていれば表示）
     const matchStl = styles.length === 0 || styles.some((s: any) => 
       shop['スタイル'] && shop['スタイル'].includes(s.value)
     );
-
     return matchCat && matchLvl && matchStl;
   });
 
-  // スタイルの選択肢を生成（コンマ区切りを分解して重複を排除）
+  // スタイルの選択肢生成
   const getStyleOptions = () => {
     const allStyles = new Set<string>();
     props.data.forEach((item: any) => {
@@ -40,7 +37,7 @@ const Content = (props: Props) => {
     return uniqueValues.map(v => ({ value: v, label: v }));
   };
 
-  // react-select のカスタムスタイル設定（モノトーン・スタイリッシュ）
+  // react-select のカスタムスタイル（モノトーン・スタイリッシュ）
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
@@ -87,4 +84,79 @@ const Content = (props: Props) => {
         backgroundColor: '#000',
       }
     }),
-    multiValue: (
+    multiValue: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#F0F0F0',
+      borderRadius: '2px',
+      border: '1px solid #DDD',
+    }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: '#333',
+      fontSize: '9px',
+      paddingLeft: '6px',
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: '#999',
+      '&:hover': {
+        backgroundColor: '#333',
+        color: 'white',
+      },
+    }),
+    indicatorSeparator: () => ({ display: 'none' }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      color: '#333',
+      padding: '4px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      padding: '4px',
+    }),
+  }; // ← ここにセミコロンがあることを確認してください
+
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <div style={{
+        position: 'absolute', top: '15px', left: '15px', right: '15px', 
+        zIndex: 10, display: 'flex', gap: '8px', flexDirection: 'column'
+      }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ flex: 1 }}>
+            <Select 
+              placeholder="カテゴリ" 
+              isClearable 
+              options={getOptions('カテゴリ')} 
+              onChange={setCategory} 
+              styles={customStyles}
+              isSearchable={false}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <Select 
+              placeholder="ヴィーガンレベル" 
+              isClearable 
+              options={getOptions('ヴィーガンレベル')} 
+              onChange={setLevel} 
+              styles={customStyles}
+              isSearchable={false}
+            />
+          </div>
+        </div>
+        <Select 
+          isMulti 
+          placeholder="スタイルを選択（複数可）" 
+          isClearable 
+          options={getStyleOptions()} 
+          onChange={setStyles} 
+          styles={customStyles}
+          isSearchable={false}
+        />
+      </div>
+      <Map data={filteredData} />
+    </div>
+  );
+};
+
+export default Content;
