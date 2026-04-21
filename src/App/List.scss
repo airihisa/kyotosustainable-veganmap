@@ -27,17 +27,18 @@
     .shop-list-item {
       display: flex;
       padding: 16px;
-      align-items: flex-start;
+      align-items: center; // 中央揃えにするとより綺麗に見えます
       cursor: pointer;
 
       .item-image-container {
-        width: 100px;
-        height: 100px;
+        width: 45%; // 余白を考慮して45〜50%に設定
+        aspect-ratio: 1 / 1; // 正方形を維持
+        height: auto; 
         flex-shrink: 0;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
         background-color: #f5f5f5;
-
+        
         img {
           width: 100%;
           height: 100%;
@@ -55,33 +56,32 @@
       }
 
       .item-content {
-        margin-left: 16px;
+        width: 50%;
+        margin-left: 5%; // 画像との間のマージン
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 2px;
-        overflow: hidden; // はみ出し防止
-
+        justify-content: center;
+        
         .item-category-tag {
           display: inline-block;
-          background: #e0e0e0;
-          color: #666;
+          background: #da402e; // カテゴリー背景色を指定
+          color: #ffffff;      // 文字色は白
           font-size: 10px;
-          padding: 2px 8px;
+          padding: 2px 10px;
           border-radius: 4px;
           width: fit-content;
-          margin-bottom: 6px;
+          margin-bottom: 8px;
           font-weight: bold;
         }
 
         .item-title {
           margin: 0;
-          font-size: 16px;
+          font-size: 15px; // エリアに合わせて少し調整
           font-weight: bold;
           line-height: 1.4;
           color: #333;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3; // エリアが広いので3行まで表示
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
