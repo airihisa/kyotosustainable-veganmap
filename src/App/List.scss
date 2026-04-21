@@ -62,20 +62,26 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        // 上の余白をさらに削って、文字エリアを限界まで上に寄せます
-        padding-top: 0px;
+        padding-top: 8px;
         
         .item-category-tag {
-          display: inline-block;
+          // inline-flex を使うことで、中の文字を上下左右の真ん中に配置しやすくなります
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           background: #da402e;
           color: #ffffff;
           font-size: 10px;
-          padding: 2px 12px; // 左右の余白を少し増やしてカプセル感を強調
-          border-radius: 50px; // 大きな数値を指定することで、左右が完全な半円になります
-          width: fit-content;
-          margin-bottom: 4px; // タイトルとの間隔をさらに詰めて上に寄せます
           font-weight: bold;
-          line-height: 1.2;
+          // ご指定の数値
+          padding: 6px 12px; 
+          border-radius: 50px;
+          width: fit-content;
+          margin-bottom: 8px;
+          // 文字が上下の真ん中に来るように調整
+          line-height: 1; 
+          // もしこれでも文字が少し上に感じる場合は、以下の vertical-align を試してください
+          vertical-align: middle; 
         }
 
         .item-title {
