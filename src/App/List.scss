@@ -1,31 +1,104 @@
-.shop-list
-{
-  color: #555555;
+.shop-list {
+  color: #333333; // 少し濃くして視認性をアップ
   box-sizing: border-box;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  background-color: #ffffff;
 
-  .shop
-  {
-    border-bottom: 1px solid #EEEEEE;
-    padding: 16px;
-    font-size: 12px;
+  // 絞り込み中のテキスト表示エリア
+  .shop-list-category {
+    margin: 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+    border-left: 4px solid #4a6da7;
+    padding-left: 8px;
+  }
+
+  // 各店舗の枠組み
+  .shop {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0; // ShopListItem側でパディングを制御するため0に
     position: relative;
+    background-color: #ffffff !important; // しましまを解除
+
+    // ここにShopListItemで作成した .shop-list-item のスタイルが効きます
+    .shop-list-item {
+      display: flex;
+      padding: 16px;
+      align-items: flex-start;
+      cursor: pointer;
+
+      // 左側の画像
+      .item-image-container {
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .no-image {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          font-size: 10px;
+          color: #ccc;
+        }
+      }
+
+      // 右側のテキスト
+      .item-content {
+        margin-left: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 2px;
+
+        .item-category-tag {
+          display: inline-block;
+          background: #e0e0e0; // 薄いグレーに変更（文字を主役にするため）
+          color: #666;
+          font-size: 10px;
+          padding: 2px 8px;
+          border-radius: 4px;
+          width: fit-content;
+          margin-bottom: 6px;
+          font-weight: bold;
+        }
+
+        .item-title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 1.4;
+          color: #333;
+          // 長い店名を2行で省略
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .item-date {
+          margin-top: 8px;
+          font-size: 11px;
+          color: #999;
+        }
+      }
+    }
+
+    // クリックした時の反応
+    &:active {
+      background-color: #f9f9f9 !important;
+    }
   }
 
-  tr
-  {
-    background-color: transparent !important;
-  }
-
-  .shop:nth-child(even)
-  {
-    background-color: #f7f7f7;
-  }
-  .shop-list-category
-  {
-    margin: 20px 10px;
-    font-size: 18px;
-    display: flex;
-  }
-}
+  //
