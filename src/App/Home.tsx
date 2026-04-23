@@ -41,29 +41,28 @@ const Content = (props: Props) => {
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
-      borderRadius: '4px',
-      border: state.isFocused ? '1px solid #333' : '1px solid #E0E0E0',
+      borderRadius: '2px', // よりシャープな角に
+      border: state.isFocused ? '1px solid #000000' : '1px solid #E0E0E0',
       boxShadow: 'none',
-      minHeight: '32px',
-      height: '32px',
-      fontSize: '10px',
-      fontWeight: '500',
-      backgroundColor: 'rgba(255, 255, 255, 0.98)',
+      minHeight: '28px',
+      height: '28px',
+      fontSize: '9px',
+      fontWeight: '600', // 文字を少し太くして視認性を確保
+      backgroundColor: '#fafafa', // ベースカラーのオフホワイト
       cursor: 'pointer',
-      '&:hover': {
-        border: '1px solid #999',
-      }
+      '&:hover': { border: '1px solid #000000' }
     }),
     valueContainer: (provided: any) => ({
       ...provided,
       padding: '0 8px',
-      height: '32px',
+      height: '28px',
       display: 'flex',
       alignItems: 'center',
     }),
     placeholder: (provided: any) => ({
       ...provided,
-      color: '#888',
+      color: '#000000', // プレースホルダーも黒にして力強く
+      opacity: 0.4,
     }),
     input: (provided: any) => ({
       ...provided,
@@ -72,49 +71,59 @@ const Content = (props: Props) => {
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
-      height: '32px',
+      height: '28px',
     }),
     option: (provided: any, state: any) => ({
       ...provided,
-      fontSize: '10px',
-      backgroundColor: state.isSelected ? '#333' : state.isFocused ? '#F5F5F5' : 'white',
-      color: state.isSelected ? 'white' : '#333',
+      fontSize: '9px',
+      fontWeight: '500',
+      // 選択時はアクセントカラーの赤、ホバー時は薄いグレー
+      backgroundColor: state.isSelected ? '#da402e' : state.isFocused ? '#eeeeee' : '#fafafa',
+      color: state.isSelected ? '#ffffff' : '#000000',
       cursor: 'pointer',
+      padding: '10px 12px',
       '&:active': {
-        backgroundColor: '#000',
+        backgroundColor: '#da402e',
       }
     }),
     multiValue: (provided: any) => ({
       ...provided,
-      backgroundColor: '#F0F0F0',
-      borderRadius: '2px',
-      border: '1px solid #DDD',
+      backgroundColor: '#000000', // 選択されたチップは黒
+      borderRadius: '0px', // チップも角を立てる
     }),
     multiValueLabel: (provided: any) => ({
       ...provided,
-      color: '#333',
-      fontSize: '9px',
-      paddingLeft: '6px',
+      color: '#ffffff', // 黒背景に白文字
+      fontSize: '8px',
+      padding: '2px 6px',
     }),
     multiValueRemove: (provided: any) => ({
       ...provided,
-      color: '#999',
+      color: '#ffffff',
       '&:hover': {
-        backgroundColor: '#333',
-        color: 'white',
+        backgroundColor: '#da402e', // 削除ホバー時は赤
+        color: '#ffffff',
       },
     }),
     indicatorSeparator: () => ({ display: 'none' }),
     dropdownIndicator: (provided: any) => ({
       ...provided,
-      color: '#333',
-      padding: '4px',
+      color: '#000000',
+      padding: '2px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
-      padding: '4px',
+      color: '#000000',
+      padding: '2px',
     }),
-  }; // ← ここにセミコロンがあることを確認してください
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#fafafa',
+      borderRadius: '0px',
+      border: '1px solid #000000',
+      boxShadow: '4px 4px 0px rgba(0,0,0,0.1)', // 建築ドローイングのような影
+    }),
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
