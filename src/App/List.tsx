@@ -63,42 +63,99 @@ const Content = (props: Props) => {
   const queryStyle = searchParams.get('style')
 
   const customStyles = {
-  control: (provided: any, state: any) => ({
-    ...provided,
-    borderRadius: '0px',
-    border: 'none',
-    // 下線のみ、かつ細くして洗練させる
-    borderBottom: state.isFocused ? '1px solid #000000' : '1px solid #E0E0E0',
-    boxShadow: 'none',
-    minHeight: '40px', // 高さを出して余白を確保
-    fontSize: '11px',  // 9pxだと可読性が下がる場合があるため、少し上げてカーニング(letterSpacing)で調整
-    fontWeight: '600',
-    backgroundColor: 'transparent', // 透過させて地図や背景と馴染ませる
-    letterSpacing: '0.1em', // 文字間隔を広げるのがBRUTUS風の鉄則
-    cursor: 'pointer',
-    '&:hover': {
-      borderBottom: '1px solid #000000',
-    }
-  }),
-  valueContainer: (provided: any) => ({
-    ...provided,
-    padding: '0 4px',
-  }),
-  placeholder: (provided: any) => ({
-    ...provided,
-    color: '#000000',
-    opacity: 0.3, // 薄くして「背景」にする
-  }),
-  // ...（他はモノトーンを維持）
-  menu: (provided: any) => ({
-    ...provided,
-    backgroundColor: '#fafafa',
-    borderRadius: '0px',
-    border: '1px solid #000000',
-    boxShadow: '10px 10px 0px rgba(0,0,0,0.03)', // よりフラットで大きな影
-    zIndex: 100,
-  }),
-};
+    control: (provided: any, state: any) => ({
+      ...provided,
+      borderRadius: '0px',
+      border: 'none',
+      // 選択中(hasValue)またはメニューが開いている(isFocused)時に赤、それ以外は黒
+      borderBottom: (state.hasValue || state.isFocused) 
+        ? '1.5px solid #da402e' 
+        : '1.5px solid #000000',
+      boxShadow: 'none',
+      minHeight: '34px',
+      height: '34px',
+      fontSize: '8px', // さらに小さく設定
+      fontWeight: '700',
+      backgroundColor: '#fafafa', // 背景色を指定
+      letterSpacing: '0.12em', // 小さい文字を読みやすくするための広い字間
+      cursor: 'pointer',
+      transition: 'border-color 0.3s ease',
+      '&:hover': {
+        borderBottom: '1.5px solid #da402e',
+      }
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '0 4px',
+      height: '34px',
+      display: 'flex',
+      alignItems: 'center',
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      opacity: 0.5,
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+    }),
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0px',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '34px',
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      fontSize: '9px',
+      fontWeight: '700',
+      backgroundColor: state.isSelected ? '#000000' : state.isFocused ? '#eeeeee' : '#fafafa',
+      color: state.isSelected ? '#ffffff' : '#000000',
+      cursor: 'pointer',
+      padding: '12px 16px',
+      transition: 'all 0.2s ease',
+    }),
+    multiValue: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#000000',
+      borderRadius: '0px',
+    }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: '#ffffff',
+      fontSize: '8px',
+      fontWeight: '700',
+      padding: '2px 6px',
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: '#ffffff',
+      '&:hover': { backgroundColor: '#da402e', color: '#ffffff' },
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#fafafa',
+      borderRadius: '0px',
+      border: '1.5px solid #000000',
+      boxShadow: '10px 10px 0px rgba(0,0,0,0.03)',
+      marginTop: '4px',
+    }),
+    indicatorSeparator: () => ({ display: 'none' }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      padding: '2px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      padding: '2px',
+    }),
+  };
 
   // オプション生成
   const getStyleOptions = () => {
