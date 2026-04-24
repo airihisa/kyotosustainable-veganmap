@@ -62,41 +62,86 @@ const Content = (props: Props) => {
   const queryLevel = searchParams.get('level')
   const queryStyle = searchParams.get('style')
 
-  // react-select用のスタイル設定（Home.tsxと統一）
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
-      borderRadius: '4px',
-      border: state.isFocused ? '1px solid #333' : '1px solid #E0E0E0',
+      borderRadius: '0px', // 完全に角を落としてグリッド感を強調
+      border: 'none',
+      borderBottom: state.isFocused ? '1.5px solid #000000' : '1.5px solid #000000', // 下線のみでミニマルに
       boxShadow: 'none',
-      minHeight: '32px',
-      height: '32px',
-      fontSize: '10px',
-      fontWeight: '500',
-      backgroundColor: '#fff',
+      minHeight: '30px',
+      height: '30px',
+      fontSize: '9px',
+      fontWeight: '700', // 雑誌のようにウェイトを重く
+      backgroundColor: '#fafafa',
       cursor: 'pointer',
-      '&:hover': { border: '1px solid #999' }
+      letterSpacing: '0.05em',
+      '&:hover': { borderBottom: '1.5px solid #da402e' } // ホバーでアクセント
     }),
     valueContainer: (provided: any) => ({
-      ...provided, padding: '0 8px', height: '32px', display: 'flex', alignItems: 'center'
+      ...provided,
+      padding: '0 4px',
+      height: '30px',
+      display: 'flex',
+      alignItems: 'center',
     }),
-    placeholder: (provided: any) => ({ ...provided, color: '#888' }),
-    input: (provided: any) => ({ ...provided, margin: '0px', padding: '0px' }),
-    indicatorsContainer: (provided: any) => ({ ...provided, height: '32px' }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      textTransform: 'uppercase', // 英語表記などがあれば大文字でスタイリッシュに
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+    }),
     option: (provided: any, state: any) => ({
       ...provided,
-      fontSize: '10px',
-      backgroundColor: state.isSelected ? '#333' : state.isFocused ? '#F5F5F5' : 'white',
-      color: state.isSelected ? 'white' : '#333',
-      cursor: 'pointer'
+      fontSize: '9px',
+      fontWeight: '700',
+      backgroundColor: state.isSelected ? '#000000' : state.isFocused ? '#eeeeee' : '#fafafa',
+      color: state.isSelected ? '#ffffff' : '#000000',
+      cursor: 'pointer',
+      padding: '12px 16px',
+      borderBottom: '0.5px solid #eee',
+      transition: 'all 0.2s ease',
     }),
     multiValue: (provided: any) => ({
-      ...provided, backgroundColor: '#F0F0F0', borderRadius: '2px', border: '1px solid #DDD'
+      ...provided,
+      backgroundColor: '#000000',
+      borderRadius: '0px',
+      margin: '2px',
     }),
-    multiValueLabel: (provided: any) => ({ ...provided, color: '#333', fontSize: '9px' }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: '#ffffff',
+      fontSize: '8px',
+      fontWeight: '700',
+      padding: '2px 8px',
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: '#ffffff',
+      '&:hover': { backgroundColor: '#da402e', color: '#ffffff' },
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#fafafa',
+      borderRadius: '0px',
+      border: '1.5px solid #000000', // 枠線を太くして存在感を出す
+      boxShadow: '8px 8px 0px rgba(0,0,0,0.05)', // フラットな影
+      marginTop: '4px',
+    }),
     indicatorSeparator: () => ({ display: 'none' }),
-    dropdownIndicator: (provided: any) => ({ ...provided, color: '#333', padding: '4px' }),
-    clearIndicator: (provided: any) => ({ ...provided, padding: '4px' }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      padding: '2px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      color: '#000000',
+      padding: '2px',
+    }),
   };
 
   // オプション生成
