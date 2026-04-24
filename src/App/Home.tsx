@@ -37,73 +37,74 @@ const Content = (props: Props) => {
     return uniqueValues.map(v => ({ value: v, label: v }));
   };
 
-  // react-select のカスタムスタイル（モノトーン・スタイリッシュ）
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
-      borderRadius: '2px', // よりシャープな角に
-      border: state.isFocused ? '1px solid #000000' : '1px solid #E0E0E0',
+      borderRadius: '0px', // 完全に角を落としてグリッド感を強調
+      border: 'none',
+      borderBottom: state.isFocused ? '1.5px solid #000000' : '1.5px solid #000000', // 下線のみでミニマルに
       boxShadow: 'none',
-      minHeight: '28px',
-      height: '28px',
+      minHeight: '30px',
+      height: '30px',
       fontSize: '9px',
-      fontWeight: '600', // 文字を少し太くして視認性を確保
-      backgroundColor: '#fafafa', // ベースカラーのオフホワイト
+      fontWeight: '700', // 雑誌のようにウェイトを重く
+      backgroundColor: '#fafafa',
       cursor: 'pointer',
-      '&:hover': { border: '1px solid #000000' }
+      letterSpacing: '0.05em',
+      '&:hover': { borderBottom: '1.5px solid #da402e' } // ホバーでアクセント
     }),
     valueContainer: (provided: any) => ({
       ...provided,
-      padding: '0 8px',
-      height: '28px',
+      padding: '0 4px',
+      height: '30px',
       display: 'flex',
       alignItems: 'center',
     }),
     placeholder: (provided: any) => ({
       ...provided,
-      color: '#000000', // プレースホルダーも黒にして力強く
-      opacity: 0.4,
+      color: '#000000',
+      textTransform: 'uppercase', // 英語表記などがあれば大文字でスタイリッシュに
     }),
-    input: (provided: any) => ({
+    singleValue: (provided: any) => ({
       ...provided,
-      margin: '0px',
-      padding: '0px',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '28px',
+      color: '#000000',
     }),
     option: (provided: any, state: any) => ({
       ...provided,
       fontSize: '9px',
-      fontWeight: '500',
-      // 選択時はアクセントカラーの赤、ホバー時は薄いグレー
-      backgroundColor: state.isSelected ? '#da402e' : state.isFocused ? '#eeeeee' : '#fafafa',
+      fontWeight: '700',
+      backgroundColor: state.isSelected ? '#000000' : state.isFocused ? '#eeeeee' : '#fafafa',
       color: state.isSelected ? '#ffffff' : '#000000',
       cursor: 'pointer',
-      padding: '10px 12px',
-      '&:active': {
-        backgroundColor: '#da402e',
-      }
+      padding: '12px 16px',
+      borderBottom: '0.5px solid #eee',
+      transition: 'all 0.2s ease',
     }),
     multiValue: (provided: any) => ({
       ...provided,
-      backgroundColor: '#000000', // 選択されたチップは黒
-      borderRadius: '0px', // チップも角を立てる
+      backgroundColor: '#000000',
+      borderRadius: '0px',
+      margin: '2px',
     }),
     multiValueLabel: (provided: any) => ({
       ...provided,
-      color: '#ffffff', // 黒背景に白文字
+      color: '#ffffff',
       fontSize: '8px',
-      padding: '2px 6px',
+      fontWeight: '700',
+      padding: '2px 8px',
     }),
     multiValueRemove: (provided: any) => ({
       ...provided,
       color: '#ffffff',
-      '&:hover': {
-        backgroundColor: '#da402e', // 削除ホバー時は赤
-        color: '#ffffff',
-      },
+      '&:hover': { backgroundColor: '#da402e', color: '#ffffff' },
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#fafafa',
+      borderRadius: '0px',
+      border: '1.5px solid #000000', // 枠線を太くして存在感を出す
+      boxShadow: '8px 8px 0px rgba(0,0,0,0.05)', // フラットな影
+      marginTop: '4px',
     }),
     indicatorSeparator: () => ({ display: 'none' }),
     dropdownIndicator: (provided: any) => ({
@@ -115,13 +116,6 @@ const Content = (props: Props) => {
       ...provided,
       color: '#000000',
       padding: '2px',
-    }),
-    menu: (provided: any) => ({
-      ...provided,
-      backgroundColor: '#fafafa',
-      borderRadius: '0px',
-      border: '1px solid #000000',
-      boxShadow: '4px 4px 0px rgba(0,0,0,0.1)', // 建築ドローイングのような影
     }),
   };
 
