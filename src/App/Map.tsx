@@ -192,7 +192,7 @@ React.useEffect(() => {
 
     const map = new geolonia.Map({
       container: mapNode.current,
-      style: 'geolonia/gsi',
+      style: 'geolonia/basic',
     });
 
     const onMapLoad = () => {
