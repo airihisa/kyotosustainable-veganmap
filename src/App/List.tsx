@@ -200,7 +200,7 @@ React.useEffect(() => {
               placeholder="カテゴリ"
               isClearable 
               options={getOptions('カテゴリ')} 
-              onChange={(selected) => setOptions(selected ? [...selected] : [])}
+              onChange={(selected) => setCategory(selected)}
               styles={selectStyles}   // ←ここだけ変える
               isSearchable={false}
               />
@@ -209,7 +209,7 @@ React.useEffect(() => {
             <Select 
               placeholder="ヴィーガンレベル" isClearable 
               options={getOptions('ヴィーガンレベル')} 
-              onChange={setLevel} 
+              onChange={(selected) => setLevel(selected)}
               styles={selectStyles} isSearchable={false}
             />
           </div>
@@ -217,7 +217,7 @@ React.useEffect(() => {
         <Select 
           isMulti placeholder="スタイルを選択" isClearable 
           options={getStyleOptions()} 
-          onChange={setStyles} 
+          onChange={(selected) => setStyles(selected ? [...selected] : [])}
           styles={selectStyles} isSearchable={false}
         />
         {/* オプション */}
@@ -236,7 +236,7 @@ React.useEffect(() => {
             <Select
               placeholder="営業時間帯"
               options={getTimeOptions()}
-              onChange={setTime}
+              onChange={(selected) => setTime(selected)}
               styles={selectStyles}
               isClearable
               isSearchable={false}
@@ -247,7 +247,7 @@ React.useEffect(() => {
             <Select
               placeholder="価格帯"
               options={getPriceOptions()}
-              onChange={setPrice}
+              onChange={(selected) => setPrice(selected)}
               styles={selectStyles}
               isClearable
               isSearchable={false}
