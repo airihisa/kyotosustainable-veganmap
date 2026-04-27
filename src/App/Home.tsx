@@ -108,7 +108,7 @@ const Content = (props: Props) => {
       ...provided,
       color: '#ffffff',
       fontSize: '10px',
-      fontWeight: '700',
+      fontWeight: '400',
       padding: '2px 6px',
     }),
     multiValueRemove: (provided: any) => ({
