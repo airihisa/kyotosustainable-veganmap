@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import './Tabbar.scss'
 
 // FaCamera を削除しました
-import { FaList, FaHome, FaSearch } from "react-icons/fa"
+import { FaList, FaHome,} from "react-icons/fa"
 import { AiOutlineAppstore } from "react-icons/ai"
 
 const Content = () => {
