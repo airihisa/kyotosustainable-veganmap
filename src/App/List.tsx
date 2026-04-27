@@ -221,18 +221,17 @@ React.useEffect(() => {
   <div style={{ display: 'flex', gap: '8px' }}>
     <div style={{ flex: 1 }}>
       <Select 
-        isMulti
         placeholder="オプション"
         options={getOptionOptions()}
         onChange={setOption}
         styles={selectStyles}
+        isClearable
         isSearchable={false}
       />
     </div>
 
     <div style={{ flex: 1 }}>
       <Select 
-        isMulti
         placeholder="スタイル"
         options={getStyleOptions()} 
         onChange={setStyle}
