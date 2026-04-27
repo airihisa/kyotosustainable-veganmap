@@ -224,7 +224,7 @@ React.useEffect(() => {
         isMulti
         placeholder="オプション"
         options={getOptionOptions()}
-        onChange={setStyle}
+        onChange={setOption}
         styles={selectStyles}
         isSearchable={false}
       />
