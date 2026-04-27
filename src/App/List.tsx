@@ -158,7 +158,7 @@ const Content = (props: Props) => {
               placeholder="ヴィーガンレベル" isClearable 
               options={getOptions('ヴィーガンレベル')} 
               onChange={setLevel} 
-              styles={customStyles} isSearchable={false}
+              styles={selectStyles} isSearchable={false}
             />
           </div>
         </div>
@@ -166,7 +166,7 @@ const Content = (props: Props) => {
           isMulti placeholder="スタイルを選択" isClearable 
           options={getStyleOptions()} 
           onChange={setStyles} 
-          styles={customStyles} isSearchable={false}
+          styles={selectStyles} isSearchable={false}
         />
         <div style={{ fontSize: '10px', color: '#999', marginTop: '4px' }}>
           該当件数: {data.length} 件
