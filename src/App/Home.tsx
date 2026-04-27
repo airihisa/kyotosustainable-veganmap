@@ -69,13 +69,15 @@ const Content = (props: Props) => {
     placeholder: (provided: any) => ({
       ...provided,
       color: '#000000',
-      opacity: 0.5,
+      opacity: 1,
       fontSize: '10px',
       fontWeight: '400',
     }),
     singleValue: (provided: any) => ({
       ...provided,
       color: '#000000',
+      fontSize: '10px',
+      fontWeight: '400',
     }),
     input: (provided: any) => ({
       ...provided,
@@ -127,11 +129,13 @@ const Content = (props: Props) => {
       ...provided,
       color: '#000000',
       padding: '2px',
+      transform: 'scale(0.8)',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
       color: '#000000',
       padding: '2px',
+      transform: 'scale(0.8)',
     }),
   };
 
