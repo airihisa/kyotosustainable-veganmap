@@ -108,6 +108,7 @@ const Content = (props: Props) => {
   ];
 
   // フィルタリングとソートの実行
+React.useEffect(() => {
   let filtered = props.data.filter((item: any) => {
     const targetCat = category ? category.value : queryCategory;
     const targetLvl = level ? level.value : queryLevel;
@@ -156,7 +157,18 @@ const Content = (props: Props) => {
     }
 
     return () => { isMounted = false }
-  }, [props.data, category, level, styles, queryCategory, queryLevel, queryStyle])
+  }, [
+  props.data,
+  category,
+  level,
+  styles,
+  options,
+  time,
+  price,
+  queryCategory,
+  queryLevel,
+  queryStyle
+])
 
   const popupHandler = (shop: any) => {
     if (shop['公式サイト'] && String(shop['公式サイト']).startsWith('http')) {
