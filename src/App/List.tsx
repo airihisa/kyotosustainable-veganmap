@@ -55,7 +55,10 @@ const Content = (props: Props) => {
   const [category, setCategory] = React.useState<any>(null);
   const [level, setLevel] = React.useState<any>(null);
   const [styles, setStyles] = React.useState<any>([]);
-
+  const [options, setOptions] = React.useState<any[]>([]);
+  const [time, setTime] = React.useState<any>(null);
+  const [price, setPrice] = React.useState<any>(null);
+  
   const [searchParams] = useSearchParams();
   
   // URLパラメータの取得
@@ -79,22 +82,59 @@ const Content = (props: Props) => {
     return uniqueValues.map(v => ({ value: v, label: v }));
   };
 
-  // フィルタリングとソートの実行
-  React.useEffect(() => {
-    let filtered = props.data.filter((item: any) => {
-      const targetCat = category ? category.value : queryCategory;
-      const targetLvl = level ? level.value : queryLevel;
-      
-      const matchCat = !targetCat || item['カテゴリ'] === targetCat;
-      const matchLvl = !targetLvl || item['ヴィーガンレベル'] === targetLvl;
-      
-      // スタイルの判定（URLパラメータ or セレクトボックス）
-      const matchStl = styles.length === 0 
-        ? (!queryStyle || (item['スタイル'] && item['スタイル'].includes(queryStyle)))
-        : styles.some((s: any) => item['スタイル'] && item['スタイル'].includes(s.value));
-
-      return matchCat && matchLvl && matchStl;
+  const getOptionOptions = () => {
+    const all = new Set<string>();
+    props.data.forEach((item: any) => {
+      if (item['オプション']) {
+        item['オプション'].split(',').forEach((o: string) => all.add(o.trim()));
+      }
     });
+    return Array.from(all).map(v => ({ value: v, label: v }));
+  };
+
+  const getTimeOptions = () => [
+    { value: 'モーニング', label: 'モーニング' },
+    { value: 'ランチ', label: 'ランチ' },
+    { value: 'ディナー', label: 'ディナー' },
+    { value: 'カフェタイム', label: 'カフェタイム' },
+  ];
+
+  const getPriceOptions = () => [
+    { value: '¥', label: '¥' },
+    { value: '¥¥', label: '¥¥' },
+    { value: '¥¥¥', label: '¥¥¥' },
+    { value: '¥¥¥¥', label: '¥¥¥¥' },
+    { value: '¥¥¥¥¥', label: '¥¥¥¥¥' },
+  ];
+
+  // フィルタリングとソートの実行
+  let filtered = props.data.filter((item: any) => {
+    const targetCat = category ? category.value : queryCategory;
+    const targetLvl = level ? level.value : queryLevel;
+    
+    const matchCat = !targetCat || item['カテゴリ'] === targetCat;
+    const matchLvl = !targetLvl || item['ヴィーガンレベル'] === targetLvl;
+    
+    const matchStl = styles.length === 0 
+      ? (!queryStyle || (item['スタイル'] && item['スタイル'].includes(queryStyle)))
+      : styles.some((s: any) => item['スタイル'] && item['スタイル'].includes(s.value));
+    
+    // 👇追加① オプション（複数）
+    const matchOpt = options.length === 0 ||
+      options.some((o: any) =>
+        item['オプション'] && item['オプション'].includes(o.value)
+      );
+    
+    // 👇追加② 営業時間帯
+    const matchTime = !time ||
+      (item['営業時間帯'] && item['営業時間帯'].includes(time.value));
+    
+    // 👇追加③ 価格帯
+    const matchPrice = !price ||
+      item['価格帯'] === price.value;
+    
+    return matchCat && matchLvl && matchStl && matchOpt && matchTime && matchPrice;
+  });
 
     let isMounted = true
     const orderBy = process.env.REACT_APP_ORDERBY
@@ -168,6 +208,41 @@ const Content = (props: Props) => {
           onChange={setStyles} 
           styles={selectStyles} isSearchable={false}
         />
+        {/* オプション */}
+        <Select 
+          isMulti
+          placeholder="オプション"
+          options={getOptionOptions()}
+          onChange={setOptions}
+          styles={selectStyles}
+          isSearchable={false}
+        />
+
+        {/* 営業時間帯 & 価格帯 */}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ flex: 1 }}>
+            <Select
+              placeholder="営業時間帯"
+              options={getTimeOptions()}
+              onChange={setTime}
+              styles={selectStyles}
+              isClearable
+              isSearchable={false}
+            />
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <Select
+              placeholder="価格帯"
+              options={getPriceOptions()}
+              onChange={setPrice}
+              styles={selectStyles}
+              isClearable
+              isSearchable={false}
+            />
+          </div>
+        </div>
+        
         <div style={{ fontSize: '10px', color: '#999', marginTop: '4px' }}>
           該当件数: {data.length} 件
         </div>
