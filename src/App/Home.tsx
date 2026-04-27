@@ -45,8 +45,6 @@ const Content = (props: Props) => {
       // 選択中(hasValue)またはメニューが開いている(isFocused)時に芥子色、それ以外は黒
       borderBottom: state.hasValue
         ? '1.5px solid #CAAD5F'
-        : state.isFocused
-        ? '1.5px solid #999999'
         : '1.5px solid #000000',
       boxShadow: 'none',
       minHeight: '34px',
