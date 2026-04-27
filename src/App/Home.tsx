@@ -61,7 +61,7 @@ const Content = (props: Props) => {
     }),
     valueContainer: (provided: any) => ({
       ...provided,
-      padding: '0 4px',
+      padding: '0 2px',
       height: '34px',
       display: 'flex',
       alignItems: 'center',
@@ -105,7 +105,7 @@ const Content = (props: Props) => {
     multiValueLabel: (provided: any) => ({
       ...provided,
       color: '#ffffff',
-      fontSize: '8px',
+      fontSize: '10px',
       fontWeight: '700',
       padding: '2px 6px',
     }),
