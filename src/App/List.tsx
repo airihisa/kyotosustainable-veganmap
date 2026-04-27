@@ -194,71 +194,87 @@ React.useEffect(() => {
     <div id="shop-list" className="shop-list">
       {/* 検索窓セクション */}
       <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', gap: '8px', borderBottom: '1px solid #eee', background: '#fff' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <div style={{ flex: 1 }}>
-            <Select 
-              placeholder="カテゴリ"
-              isClearable 
-              options={getOptions('カテゴリ')} 
-              onChange={(selected) => setCategory(selected)}
-              styles={selectStyles}   // ←ここだけ変える
-              isSearchable={false}
-              />
-          </div>
-          <div style={{ flex: 1 }}>
-            <Select 
-              placeholder="ヴィーガンレベル" isClearable 
-              options={getOptions('ヴィーガンレベル')} 
-              onChange={(selected) => setLevel(selected)}
-              styles={selectStyles} isSearchable={false}
-            />
-          </div>
-        </div>
-        <Select 
-          isMulti placeholder="スタイルを選択" isClearable 
-          options={getStyleOptions()} 
-          onChange={(selected) => setStyles(selected ? [...selected] : [])}
-          styles={selectStyles} isSearchable={false}
-        />
-        {/* オプション */}
-        <Select 
-          isMulti
-          placeholder="オプション"
-          options={getOptionOptions()}
-          onChange={(selected) => setOptions(selected ? [...selected] : [])}
-          styles={selectStyles}
-          isSearchable={false}
-        />
 
-        {/* 営業時間帯 & 価格帯 */}
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <div style={{ flex: 1 }}>
-            <Select
-              placeholder="営業時間帯"
-              options={getTimeOptions()}
-              onChange={(selected) => setTime(selected)}
-              styles={selectStyles}
-              isClearable
-              isSearchable={false}
-            />
-          </div>
+  {/* ① カテゴリ + レベル */}
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <div style={{ flex: 1 }}>
+      <Select 
+        placeholder="カテゴリ"
+        isClearable 
+        options={getOptions('カテゴリ')} 
+        onChange={setCategory} 
+        styles={selectStyles}
+        isSearchable={false}
+      />
+    </div>
+    <div style={{ flex: 1 }}>
+      <Select 
+        placeholder="ヴィーガンレベル"
+        isClearable 
+        options={getOptions('ヴィーガンレベル')} 
+        onChange={setLevel} 
+        styles={selectStyles}
+        isSearchable={false}
+      />
+    </div>
+  </div>
 
-          <div style={{ flex: 1 }}>
-            <Select
-              placeholder="価格帯"
-              options={getPriceOptions()}
-              onChange={(selected) => setPrice(selected)}
-              styles={selectStyles}
-              isClearable
-              isSearchable={false}
-            />
-          </div>
-        </div>
-        
-        <div style={{ fontSize: '10px', color: '#999', marginTop: '4px' }}>
-          該当件数: {data.length} 件
-        </div>
-      </div>
+  {/* ② オプション + スタイル（←ここが今回のポイント） */}
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <div style={{ flex: 1 }}>
+      <Select 
+        isMulti
+        placeholder="オプション"
+        options={getOptionOptions()}
+        onChange={(selected) => setOptions(selected ? [...selected] : [])}
+        styles={selectStyles}
+        isSearchable={false}
+      />
+    </div>
+
+    <div style={{ flex: 1 }}>
+      <Select 
+        isMulti
+        placeholder="スタイル"
+        options={getStyleOptions()} 
+        onChange={(selected) => setStyles(selected ? [...selected] : [])}
+        styles={selectStyles}
+        isSearchable={false}
+      />
+    </div>
+  </div>
+
+  {/* ③ 営業時間帯 + 価格帯 */}
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <div style={{ flex: 1 }}>
+      <Select
+        placeholder="営業時間帯"
+        options={getTimeOptions()}
+        onChange={setTime}
+        styles={selectStyles}
+        isClearable
+        isSearchable={false}
+      />
+    </div>
+
+    <div style={{ flex: 1 }}>
+      <Select
+        placeholder="価格帯"
+        options={getPriceOptions()}
+        onChange={setPrice}
+        styles={selectStyles}
+        isClearable
+        isSearchable={false}
+      />
+    </div>
+  </div>
+
+  {/* 件数 */}
+  <div style={{ fontSize: '10px', color: '#999', marginTop: '4px' }}>
+    該当件数: {data.length} 件
+  </div>
+
+</div>
 
       <InfiniteScroll
         dataLength={list.length}
