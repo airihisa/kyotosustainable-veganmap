@@ -116,15 +116,13 @@ React.useEffect(() => {
     const matchCat = !targetCat || item['カテゴリ'] === targetCat;
     const matchLvl = !targetLvl || item['ヴィーガンレベル'] === targetLvl;
     
-    const matchStl = styles.length === 0 
-      ? (!queryStyle || (item['スタイル'] && item['スタイル'].includes(queryStyle)))
-      : styles.some((s: any) => item['スタイル'] && item['スタイル'].includes(s.value));
+    const matchStl = !style ||
+      (item['スタイル'] && item['スタイル'].includes(style.value));
+
     
     // 👇追加① オプション（複数）
-    const matchOpt = options.length === 0 ||
-      options.some((o: any) =>
-        item['オプション'] && item['オプション'].includes(o.value)
-      );
+    const matchOpt = !option ||
+      (item['オプション'] && item['オプション'].includes(option.value));
     
     // 👇追加② 営業時間帯
     const matchTime = !time ||
