@@ -236,6 +236,7 @@ React.useEffect(() => {
         options={getStyleOptions()} 
         onChange={setStyle}
         styles={selectStyles}
+        isClearable
         isSearchable={false}
       />
     </div>
