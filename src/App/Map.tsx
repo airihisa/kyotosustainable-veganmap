@@ -197,7 +197,7 @@ React.useEffect(() => {
 
     // 👇 ここを追加
     map.on('load', () => {
-      map.setPaintProperty('water', 'fill-color', '#AEE2FF')
+      map.setPaintProperty('water', 'fill-color', '#A5DEE4')
     })
 
     const onMapLoad = () => {
