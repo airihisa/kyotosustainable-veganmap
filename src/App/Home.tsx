@@ -42,21 +42,21 @@ const Content = (props: Props) => {
       ...provided,
       borderRadius: '0px',
       border: 'none',
-      // 選択中(hasValue)またはメニューが開いている(isFocused)時に赤、それ以外は黒
+      // 選択中(hasValue)またはメニューが開いている(isFocused)時に芥子色、それ以外は黒
       borderBottom: (state.hasValue || state.isFocused) 
-        ? '1.5px solid #da402e' 
+        ? '1.5px solid #CAAD5F' 
         : '1.5px solid #000000',
       boxShadow: 'none',
       minHeight: '34px',
       height: '34px',
       fontSize: '8px', // さらに小さく設定
       fontWeight: '700',
-      backgroundColor: '#fafafa', // 背景色を指定
+      backgroundColor: '#ffffff', // 背景色を指定
       letterSpacing: '0.12em', // 小さい文字を読みやすくするための広い字間
       cursor: 'pointer',
       transition: 'border-color 0.3s ease',
       '&:hover': {
-        borderBottom: '1.5px solid #da402e',
+        borderBottom: '1.5px solid #CAAD5F',
       }
     }),
     valueContainer: (provided: any) => ({
@@ -88,7 +88,7 @@ const Content = (props: Props) => {
       ...provided,
       fontSize: '9px',
       fontWeight: '700',
-      backgroundColor: state.isSelected ? '#000000' : state.isFocused ? '#eeeeee' : '#fafafa',
+      backgroundColor: state.isSelected ? '#000000' : state.isFocused ? '#eeeeee' : '#ffffff',
       color: state.isSelected ? '#ffffff' : '#000000',
       cursor: 'pointer',
       padding: '12px 16px',
@@ -96,7 +96,7 @@ const Content = (props: Props) => {
     }),
     multiValue: (provided: any) => ({
       ...provided,
-      backgroundColor: '#000000',
+      backgroundColor: '#CAAD5F',
       borderRadius: '0px',
     }),
     multiValueLabel: (provided: any) => ({
@@ -109,7 +109,7 @@ const Content = (props: Props) => {
     multiValueRemove: (provided: any) => ({
       ...provided,
       color: '#ffffff',
-      '&:hover': { backgroundColor: '#da402e', color: '#ffffff' },
+      '&:hover': { backgroundColor: '#CAAD5F', color: '#ffffff' },
     }),
     menu: (provided: any) => ({
       ...provided,
