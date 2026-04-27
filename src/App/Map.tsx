@@ -75,7 +75,7 @@ const Content = (props: Props) => {
         ],
         paint: {
           'circle-radius': 13,
-          'circle-color': '#FF0000',
+          'circle-color': '#CAAD5F',
           'circle-opacity': 0.4,
           'circle-stroke-width': 2,
           'circle-stroke-color': '#FFFFFF',
@@ -192,7 +192,7 @@ React.useEffect(() => {
 
     const map = new geolonia.Map({
       container: mapNode.current,
-      style: 'geolonia/notebook',
+      style: '/geolonia_notebook.json',
     });
 
     const onMapLoad = () => {
