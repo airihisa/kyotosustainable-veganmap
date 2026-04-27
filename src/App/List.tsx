@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { askGeolocationPermission } from '../geolocation'
 import * as turf from "@turf/turf"
 import { selectStyles } from '../styles/selectStyles';
+import { filterShops } from '../utils/filterShops';
 
 type Props = {
   data: Pwamap.ShopData[];
@@ -109,32 +110,18 @@ const Content = (props: Props) => {
 
   // フィルタリングとソートの実行
 React.useEffect(() => {
-  let filtered = props.data.filter((item: any) => {
-    const targetCat = category ? category.value : queryCategory;
-    const targetLvl = level ? level.value : queryLevel;
-    
-    const matchCat = !targetCat || item['カテゴリ'] === targetCat;
-    const matchLvl = !targetLvl || item['ヴィーガンレベル'] === targetLvl;
-    
-    const matchStl = !style ||
-      (item['スタイル'] && item['スタイル'].includes(style.value));
-
-    
-    // 👇追加① オプション（複数）
-    const matchOpt = !option ||
-      (item['オプション'] && item['オプション'].includes(option.value));
-    
-    // 👇追加② 営業時間帯
-    const matchTime = !time ||
-      (item['営業時間帯'] && item['営業時間帯'].includes(time.value));
-    
-    // 👇追加③ 価格帯
-    const matchPrice = !price ||
-      item['価格帯'] === price.value;
-    
-    return matchCat && matchLvl && matchStl && matchOpt && matchTime && matchPrice;
-  });
-
+  let filtered = filterShops(props.data, {
+  category,
+  level,
+  style,
+  option,
+  time,
+  price,
+  queryCategory,
+  queryLevel,
+  queryStyle
+});
+  
     let isMounted = true
     const orderBy = process.env.REACT_APP_ORDERBY
 
