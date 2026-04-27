@@ -76,7 +76,7 @@ const Content = (props: Props) => {
         paint: {
           'circle-radius': 13,
           'circle-color': '#CAAD5F',
-          'circle-opacity': 0.4,
+          'circle-opacity': 0.8,
           'circle-stroke-width': 2,
           'circle-stroke-color': '#FFFFFF',
           'circle-stroke-opacity': 1,
@@ -194,6 +194,11 @@ React.useEffect(() => {
       container: mapNode.current,
       style: 'geolonia/notebook',
     });
+
+    // 👇 ここを追加
+    map.on('load', () => {
+      map.setPaintProperty('water', 'fill-color', '#AEE2FF')
+    })
 
     const onMapLoad = () => {
       hidePoiLayers(map)
