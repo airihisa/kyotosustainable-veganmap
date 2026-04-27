@@ -200,7 +200,7 @@ React.useEffect(() => {
               placeholder="カテゴリ"
               isClearable 
               options={getOptions('カテゴリ')} 
-              onChange={setCategory} 
+              onChange={(selected) => setOptions(selected ? [...selected] : [])}
               styles={selectStyles}   // ←ここだけ変える
               isSearchable={false}
               />
@@ -225,7 +225,7 @@ React.useEffect(() => {
           isMulti
           placeholder="オプション"
           options={getOptionOptions()}
-          onChange={setOptions}
+          onChange={(selected) => setOptions(selected ? [...selected] : [])}
           styles={selectStyles}
           isSearchable={false}
         />
