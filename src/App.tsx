@@ -5,7 +5,6 @@ import "./App.scss";
 import Home from './App/Home'
 import List from './App/List'
 import AboutUs from './App/AboutUs'
-import Category from './App/Category'
 import Tabbar from './App/Tabbar'
 
 import config from "./config.json"; // 復活
