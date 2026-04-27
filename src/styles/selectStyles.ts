@@ -3,7 +3,7 @@ export const customSelectStyles = {
     ...provided,
     borderRadius: '0px',
     border: 'none',
-    borderBottom: state.hasValue
+    borderBottom: (state.hasValue || state.isFocused)
       ? '1.5px solid #CAAD5F'
       : '1.5px solid #000000',
     boxShadow: 'none',
@@ -15,6 +15,10 @@ export const customSelectStyles = {
     backgroundColor: '#ffffff',
     letterSpacing: '0.10em',
     cursor: 'pointer',
+    transition: 'border-color 0.2s ease',
+    '&:hover': {
+      borderBottom: '1.5px solid #CAAD5F',
+    },
   }),
 
   valueContainer: (provided: any) => ({
