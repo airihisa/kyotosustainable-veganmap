@@ -54,8 +54,8 @@ const Content = (props: Props) => {
   // 絞り込み用の状態
   const [category, setCategory] = React.useState<any>(null);
   const [level, setLevel] = React.useState<any>(null);
-  const [styles, setStyles] = React.useState<any>([]);
-  const [options, setOptions] = React.useState<any[]>([]);
+  const [style, setStyle] = React.useState<any>(null);
+  const [option, setOption] = React.useState<any>(null);
   const [time, setTime] = React.useState<any>(null);
   const [price, setPrice] = React.useState<any>(null);
   
@@ -226,7 +226,7 @@ React.useEffect(() => {
         isMulti
         placeholder="オプション"
         options={getOptionOptions()}
-        onChange={(selected) => setOptions(selected ? [...selected] : [])}
+        onChange={setStyle}
         styles={selectStyles}
         isSearchable={false}
       />
@@ -237,7 +237,7 @@ React.useEffect(() => {
         isMulti
         placeholder="スタイル"
         options={getStyleOptions()} 
-        onChange={(selected) => setStyles(selected ? [...selected] : [])}
+        onChange={setStyle}
         styles={selectStyles}
         isSearchable={false}
       />
