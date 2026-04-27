@@ -49,10 +49,10 @@ const Content = (props: Props) => {
       boxShadow: 'none',
       minHeight: '34px',
       height: '34px',
-      fontSize: '8px', // さらに小さく設定
-      fontWeight: '700',
+      fontSize: '10px', // さらに小さく設定
+      fontWeight: '400',
       backgroundColor: '#ffffff', // 背景色を指定
-      letterSpacing: '0.12em', // 小さい文字を読みやすくするための広い字間
+      letterSpacing: '0.10em', // 小さい文字を読みやすくするための広い字間
       cursor: 'pointer',
       transition: 'border-color 0.3s ease',
       '&:hover': {
@@ -70,6 +70,8 @@ const Content = (props: Props) => {
       ...provided,
       color: '#000000',
       opacity: 0.5,
+      fontSize: '10px',
+      fontWeight: '400',
     }),
     singleValue: (provided: any) => ({
       ...provided,
@@ -79,6 +81,7 @@ const Content = (props: Props) => {
       ...provided,
       margin: '0px',
       padding: '0px',
+      fontSize: '10px',
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
